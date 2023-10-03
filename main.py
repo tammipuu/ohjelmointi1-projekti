@@ -1,15 +1,15 @@
 import random
 import story
+# import sqlconfig
 from geopy import distance
 
 import mysql.connector
 
 conn = mysql.connector.connect(
     host='localhost',
-    port=3306,
-    database='some_database_name',
-    user='some_user_name',
-    password='some_password',
+    database='flight_game',
+    user='root',
+    password='salasana',
     autocommit=True
 )
 
@@ -20,7 +20,7 @@ conn = mysql.connector.connect(
 def get_airports():
     sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
             FROM airport
-            WHERE continent = 'EU' 
+            WHERE country IN ('VN', 'BD', 'IN', 'NP', 'CN', 'PH', 'MY', 'ID', 'FJ', 'CL', 'AR', 'BR', 'CR', 'JM', 'MX', 'US')
             AND type='large_airport'
             ORDER by RAND();"""
     cursor = conn.cursor(dictionary=True)
