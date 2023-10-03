@@ -19,11 +19,10 @@ conn = mysql.connector.connect(
 # select 30 airports for the game
 def get_airports():
     sql = """SELECT iso_country, ident, name, type, latitude_deg, longitude_deg
-FROM airport
-WHERE continent = 'EU' 
-AND type='large_airport'
-ORDER by RAND()
-LIMIT 30;"""
+            FROM airport
+            WHERE continent = 'EU' 
+            AND type='large_airport'
+            ORDER by RAND();"""
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
