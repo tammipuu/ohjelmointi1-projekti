@@ -26,6 +26,7 @@ def get_airports():
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
+    cursor.close()
     return result
 
 
@@ -35,6 +36,7 @@ def get_goals():
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
+    cursor.close()
     return result
 
 
@@ -61,6 +63,7 @@ def create_game(start_money, p_range, cur_airport, p_name, a_ports):
         cursor = conn.cursor(dictionary=True)
         cursor.execute(sql, (g_id, g_ports[i]['ident'], goal_id))
 
+    cursor.close()
     return g_id
 
 
@@ -72,6 +75,7 @@ def get_airport_info(icao):
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql, (icao,))
     result = cursor.fetchone()
+    cursor.close()
     return result
 
 
@@ -87,6 +91,7 @@ def check_goal(g_id, cur_airport):
     result = cursor.fetchone()
     if result is None:
         return False
+    cursor.close()
     return result
 
 
@@ -115,6 +120,7 @@ def update_location(icao, p_range, u_money, g_id):
     sql = f'''UPDATE game SET location = %s, player_range = %s, money = %s WHERE id = %s'''
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql, (icao, p_range, u_money, g_id))
+    cursor.close()
 
 
 # game starts
