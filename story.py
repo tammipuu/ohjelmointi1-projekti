@@ -1,20 +1,20 @@
 import textwrap
 
-story = '''You are an adventurous traveler, who has always wanted to explore the world. One day, you decide you are going to take on the ultimate challenge and try to find the elusive and mysterious diamond of the sky.
+story = ''' Year 1989, near the end of the Cold War, you wake up on an unfamiliar island in a different timeline, utterly perplexed. 
 
-You set off on your journey, traveling to the first airport on your list. When you arrived, you were greeted with a message on the airport's display board that said "Welcome to X Airport! You have X$ and Xkm of range left."
+You initially think it's a dream, but reality soon sets in. You discover a mysterious letter and a map tucked away in your pocket. Beside you an unconscious soldier in immediate need of medical attention. To your surprise, this person seems oddly familiar.
 
-You are determined to find the diamond, and you know you need money and range to do so. You decide to try your luck and open a lootbox at the airport. Much to your surprise, you win a great reward- money! You are ecstatic and now have the funds to continue on your journey.
+As you open the letter, its words explain your incredible situation: " Greetings, intrepid traveler. You have traveled from the year 2030 and have been selected for a daring mission. You've always wished to meet your grandfather, a brave Cold War soldier, who's now severely injured. 
 
-With your newfound wealth, you are able to continue on your journey, but you have to be careful with your money and range. You are able to purchase fuel at each airport, and you eventually make it to the airport where the diamond is rumored to be.
+Your mission: safely bring your grandfather back home to the USA, as he holds critical information for the U.S. government. Yet, be cautious- your choices, matters, and a misstep could trap you here forever, endangering your grandfather's life."  
 
-Much to your surprise, when you arrive, you see the diamond shining in the sunlight. You have finally found the diamond!
+With the letter as your guide, you set off your journey, armed with a map and essential supplies. Setting off from Vietnam Airport, you encounter yet another letter just before your departure: " Welcome your mission begins here!"  
 
-You are elated, but you know you have to be careful as you make your way back to the starting airport. You have heard rumors that robbers are prowling around the airports, hoping to steal money and valuable items. As you make your way back, you are careful to not fall victim to any of their schemes.
+Your first challenge emerges as a dire warning from the plane's controls: your fuel levels are dangerously low, insufficient to reach your goal destination. Your decision? Attempting your luck by answering the first question posed at the airport. Fortune smiles on you, granting you a valuable reward.
 
-When you finally arrive back at the starting airport, you are relieved to find that you still have the diamond and all the money you won along the way. You have won the challenge!
+You must continue your journey now, but you must be cautious with future challenges, as wrong answers can cost you dearly. Gathering money at each airport, until you reach your destination.
 
-You are overjoyed with your success and the money you have won. You have finally found the diamond of the sky and were able to keep all of your hard-earned money.
+When you finally arrive at your destination and complete your mission successfully, you finally reunite with your grandfather once he regains consciousness. Your grandfather sends you back home and you wake up. It was a dream after all! 
 
 '''
 
