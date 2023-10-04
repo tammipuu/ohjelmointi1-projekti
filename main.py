@@ -123,6 +123,80 @@ def update_location(icao, p_range, u_money, g_id):
     cursor.close()
 
 
+# Kysymykset ja vastaukset tallennetaan listaan
+questions = [
+    {
+        "question": "When did the Cold War start?",
+        "options": ["A) 1914", "B) 1945", "C) 1950"],
+        "correct_answer": "B"
+    },
+    {
+        "question": "What was the primary ideological conflict of the Cold War?",
+        "options": ["A) Capitalism vs. Imperialism", "B) Democracy vs. Monarchy", "C) Communism vs. Capitalism"],
+        "correct_answer": "C"
+    },
+    {
+        "question": "What was the Warsaw Pact, and why was it formed?",
+        "options": ["A) A military alliance of Eastern Bloc countries in response to NATO", "B) An economic alliance for trade purposes", "C) For fun"],
+        "correct_answer": "A"
+    },
+    {
+        "question": "Which event is marked as the beginning of the Cold War?",
+        "options": ["A) The Korean war", "B) The dropping of atomic bombs on Hiroshima and Nagasaki.", "C) The Yalta conference"],
+        "correct_answer": "B"
+    },
+    {
+        "question": "What was the primary goal of the United Nations (UN) during the Cold War?",
+        "options": ["A) Promotes economic competition between major powers", "B) To prevent the spread of nuclear weapons", "C) Maintaining international peace and security"],
+        "correct_answer": "C"
+    },
+    {
+        "question": "Which country served as the primary battleground for the proxy war between the United States and the Soviet Union during the Cold War?",
+        "options": ["A) Korea", "B) Vietnam", "C) Cuba"],
+        "correct_answer": "B"
+    },
+    {
+        "question": "Who were the major leaders of the United States and the Soviet Union during the Cold War?",
+        "options": ["A) Ronald Reagan and Mikhail Gorbachev", "B) Donald Trump", "C) Vladimir Putin"],
+        "correct_answer": "A"
+    },
+    {
+        "question": "What term is often used to describe the competition between the United States and the Soviet Union to achieve advancements in space exploration during the Cold War?",
+        "options": ["A) Proxy war", "B) Space Race", "C) Nuclear Arms Race"],
+        "correct_answer": "B"
+    },
+    {
+        "question": "Which country was divided into North and South following the Korean War, with the North supported by the Soviet Union and China, and the South supported by the United States and its allies?",
+        "options": ["A) Korea", "B) Vietnam", "C) Germany"],
+        "correct_answer": "A"
+    },
+    {
+        "question": "When did the war end?",
+        "options": ["A) 1991", "B) 1992", "C) 1988"],
+        "correct_answer": "A"
+    }
+]
+
+# Alustetaan pelaajan polttoaine
+fuel_reserves = 10
+
+# Funktio kysymyksen esittämiseen ja vastauksen tarkistamiseen (sama kuin aiemmin)
+def ask_question(question_data):
+    print(question_data["question"])
+    for option in question_data["options"]:
+        print(option)
+
+    player_answer = input("Anna vastaus (A/B/C): ").upper()
+
+    if player_answer == question_data["correct_answer"]:
+        print("Oikein! Saat 2x enemmän polttoainetta.")
+        return True
+    else:
+        print("Väärin! Menetät polttoainetta.")
+        return False
+        
+
+
 # game starts
 # ask to show the story
 storyDialog = input('Do you want to read the background story? (Y/N): ')
