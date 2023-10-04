@@ -127,42 +127,42 @@ def update_location(icao, p_range, u_money, g_id):
 questions = [
     {
         "question": "When did the Cold War start?",
-        "options": ["A) 1914", "B) 1945", "C) 1950"],
+        "options": ("A) 1914", "B) 1945", "C) 1950"),
         "correct_answer": "B"
     },
     {
         "question": "What was the primary ideological conflict of the Cold War?",
-        "options": ["A) Capitalism vs. Imperialism", "B) Democracy vs. Monarchy", "C) Communism vs. Capitalism"],
+        "options": ("A) Capitalism vs. Imperialism", "B) Democracy vs. Monarchy", "C) Communism vs. Capitalism"),
         "correct_answer": "C"
     },
     {
         "question": "What was the Warsaw Pact, and why was it formed?",
-        "options": ["A) A military alliance of Eastern Bloc countries in response to NATO", "B) An economic alliance for trade purposes", "C) For fun"],
+        "options": ("A) A military alliance of Eastern Bloc countries in response to NATO", "B) An economic alliance for trade purposes", "C) For fun"),
         "correct_answer": "A"
     },
     {
         "question": "Which event is marked as the beginning of the Cold War?",
-        "options": ["A) The Korean war", "B) The dropping of atomic bombs on Hiroshima and Nagasaki.", "C) The Yalta conference"],
+        "options": ("A) The Korean war", "B) The dropping of atomic bombs on Hiroshima and Nagasaki.", "C) The Yalta conference"),
         "correct_answer": "B"
     },
     {
         "question": "What was the primary goal of the United Nations (UN) during the Cold War?",
-        "options": ["A) Promotes economic competition between major powers", "B) To prevent the spread of nuclear weapons", "C) Maintaining international peace and security"],
+        "options": ("A) Promotes economic competition between major powers", "B) To prevent the spread of nuclear weapons", "C) Maintaining international peace and security"),
         "correct_answer": "C"
     },
     {
         "question": "Which country served as the primary battleground for the proxy war between the United States and the Soviet Union during the Cold War?",
-        "options": ["A) Korea", "B) Vietnam", "C) Cuba"],
+        "options": ("A) Korea", "B) Vietnam", "C) Cuba"),
         "correct_answer": "B"
     },
     {
         "question": "Who were the major leaders of the United States and the Soviet Union during the Cold War?",
-        "options": ["A) Ronald Reagan and Mikhail Gorbachev", "B) Donald Trump", "C) Vladimir Putin"],
+        "options": ("A) Ronald Reagan and Mikhail Gorbachev", "B) Donald Trump", "C) Vladimir Putin"),
         "correct_answer": "A"
     },
     {
         "question": "What term is often used to describe the competition between the United States and the Soviet Union to achieve advancements in space exploration during the Cold War?",
-        "options": ["A) Proxy war", "B) Space Race", "C) Nuclear Arms Race"],
+        "options": ("A) Proxy war", "B) Space Race", "C) Nuclear Arms Race"),
         "correct_answer": "B"
     },
     {
@@ -172,9 +172,41 @@ questions = [
     },
     {
         "question": "When did the war end?",
-        "options": ["A) 1991", "B) 1992", "C) 1988"],
+        "options": ("A) 1991", "B) 1992", "C) 1988"),
         "correct_answer": "A"
     }
+        {
+        "question": "Your fuel reserves are dangerously low. What’s your next move?",
+        "options": (  "A": "Prepare for a courageous landing.",  "B": "Start panicking", "C": "Keep soaring through the skies."),
+        "correct_answer": "A",
+        "explanation": "Preparing for a courageous landing is the safest option when fuel reserves are low."
+    },
+    {
+        "question": "In this thrilling adventure, you notice that there is a fire on the aircraft’s wings. What’s your next move?",
+        "options": ("A": "Put more fuel to the fire","B": "Put water to calm the fire","C": "Use Fire Extinguishers"),
+        "correct_answer": "C",
+        "explanation": "Using fire extinguishers is the correct action to take when there is a fire on the aircraft's wings."
+    },
+    {
+        "question": "Oh No! The weather is taking a turn for the worse and your fuel reserves are dangerously low. What’s your next move?",
+        "options": ("A": "Grab a snack to refuel yourself.","B": "Execute an emergency landing.","C": "Harness the power of wind and ride along the storm."),
+        "correct_answer": "B",
+        "explanation": "Executing an emergency landing is the safest option when the weather is bad and fuel is low."
+    },
+    {
+        "question": "As you gear up your journey, what items are you bringing along to reach your destination?",
+        "options": ("A": "A laptop","B": "Vital supplies: Food, Map & Fuel","C": "Someone’s grandmother"),
+        "correct_answer": "B",
+        "explanation": "Bringing vital supplies like food, a map, and fuel is essential for a successful journey."
+    },
+    "question": "Looks like, on your adventurous journey, you encounter an unexpected fellow traveler who needs your aid.  What do you do in the following situation?",)
+        "options": ("A": "Attack him and rob him.","B": "Make a hasty escape","C": "Offer him assistance"),
+        "correct_answer": "C",
+        "explanation": "Offering assistance to the fellow traveler is the right thing to do in this situation."
+    },
+    {
+        "question": "Rate this game (1-5):",
+        "options": { "1": "1", "2": "2", "3": "3", "4": "4", "5": "5"
 ]
 
 # Alustetaan pelaajan polttoaine
@@ -194,7 +226,13 @@ def ask_question(question_data):
     else:
         print("Väärin! Menetät polttoainetta.")
         return False
-        
+
+for question in questions:
+    if ask_question(question):
+        if question != questions[-1]:
+            fuel_reserves *= 2
+    else:
+        fuel_reserves -= 1
 
 
 # game starts
