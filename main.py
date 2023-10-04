@@ -125,7 +125,76 @@ def update_location(icao, p_range, u_money, g_id):
 
 # Kysymykset ja vastaukset tallennetaan listaan
 
-]
+questions = [
+    country_questions = 
+    'Vietnam': { 'question': 'When did the Cold War start?"',
+        'choices': ["A) 1914", "B) 1945", "C) 1950"],
+        'correct_awnser':'B'
+    },
+    'Bangladesh': "question": "What was the primary ideological conflict of the Cold War?",
+        "options": ["A) Capitalism vs. Imperialism", "B) Democracy vs. Monarchy", "C) Communism vs. Capitalism"],
+        "correct_answer": "C"
+    },
+    'India': {"question": "What was the Warsaw Pact, and why was it formed?",
+        "options": ["A) A military alliance of Eastern Bloc countries in response to NATO", "B) An economic alliance for trade purposes", "C) For fun"],
+        "correct_answer": "A"
+    },
+    'Nepal': {"question": "Which event is marked as the beginning of the Cold War?",
+        "options": ["A) The Korean war", "B) The dropping of atomic bombs on Hiroshima and Nagasaki.", "C) The Yalta conference"],
+        "correct_answer": "B"    
+    },
+    'China': {"question": "What was the primary goal of the United Nations (UN) during the Cold War?",
+        "options": ["A) Promotes economic competition between major powers", "B) To prevent the spread of nuclear weapons", "C) Maintaining international peace and security"],
+        "correct_answer": "C"
+    },
+    'Philippines': {"question": "Which country served as the primary battleground for the proxy war between the United States and the Soviet Union during the Cold War?",
+        "options": ["A) Korea", "B) Vietnam", "C) Cuba"],
+        "correct_answer": "B"
+    },
+    'Malaysia': {"question": "Who were the major leaders of the United States and the Soviet Union during the Cold War?",
+        "options": ["A) Ronald Reagan and Mikhail Gorbachev", "B) Donald Trump", "C) Vladimir Putin"],
+        "correct_answer": "A"
+    },
+    'Indonesia': { "question": "What term is often used to describe the competition between the United States and the Soviet Union to achieve advancements in space exploration during the Cold War?",
+        "options": ["A) Proxy war", "B) Space Race", "C) Nuclear Arms Race"],
+        "correct_answer": "B"    
+    },
+    'Fiji': { "question": "What term is often used to describe the competition between the United States and the Soviet Union to achieve advancements in space exploration during the Cold War?",
+        "options": ["A) Proxy war", "B) Space Race", "C) Nuclear Arms Race"],
+        "correct_answer": "B"   
+    },
+    'Chile': { "question": "When did the war end?",
+        "options": ["A) 1991", "B) 1992", "C) 1988"],
+        "correct_answer": "A"
+    },
+    'Argentina': { "question": "Your fuel reserves are dangerously low. What’s your next move?",
+        "options": {"A": "Prepare for a courageous landing.", "B": "Start panicking", "C": "Keep soaring through the skies."
+        "correct_answer": "A",
+    },
+    'Brazil': { "question": "In this thrilling adventure, you notice that there is a fire on the aircraft’s wings. What’s your next move?",
+        "options": { "A": "Put more fuel to the fire", "B": "Put water to calm the fire", "C": "Use Fire Extinguishers"
+        "correct_answer": "C",
+       '
+    },
+    'Costa rica': { "question": "Oh No! The weather is taking a turn for the worse and your fuel reserves are dangerously low. What’s your next move?",
+        "options": {"A": "Grab a snack to refuel yourself.", "B": "Execute an emergency landing.", "C": "Harness the power of wind and ride along the storm."
+        },
+        "correct_answer": "B",'
+    },
+    'Jamaica': {"question": "As you gear up your journey, what items are you bringing along to reach your destination?",
+        "options": {"A": "A laptop","B": "Vital supplies: Food, Map & Fuel","C": "Someone’s grandmother"
+        },
+        "correct_answer": "B",
+    },
+    'Mexico': {"question": "Looks like, on your adventurous journey, you encounter an unexpected fellow traveler who needs your aid. What do you do in the following situation?",
+        "options": { "A": "Attack him and rob him.", "B": "Make a hasty escape","C": "Offer him assistance"   
+         "correct_answer": "C",
+    },
+    'USA': { "question": "Rate this game (1-5):",
+        "options": { "1": "1", "2": "2","3": "3","4": "4","5": "5"
+        },
+
+
 
 # Alustetaan pelaajan polttoaine
 fuel_reserves = 10
