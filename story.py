@@ -1,6 +1,6 @@
 import textwrap
 
-story = ''' Year 1989, near the end of the Cold War, you wake up on an unfamiliar island in a different timeline, utterly perplexed. 
+story = '''Year 1975, near the end of the Vietnam War, you wake up on an unfamiliar island in a different timeline, utterly perplexed. 
 
 You initially think it's a dream, but reality soon sets in. You discover a mysterious letter and a map tucked away in your pocket. Beside you an unconscious soldier in immediate need of medical attention. To your surprise, this person seems oddly familiar.
 
