@@ -1,7 +1,7 @@
 import story
 from geopy import distance
 
-import mysql.connector 
+import mysql.connector
 
 conn = mysql.connector.connect(
     host='localhost',
