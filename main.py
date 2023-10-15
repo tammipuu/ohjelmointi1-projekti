@@ -8,7 +8,7 @@ conn = mysql.connector.connect(
     port=3306,
     database='demogame',
     user='root',
-    password='kirjoitasalasana',
+    password='Lontoo2023',
     autocommit=True
 )
 
@@ -167,11 +167,10 @@ def get_answer():
 
 # game starts
 # ask to show the story
-# storyDialog = input('Do you want to read the background story? (Y/N): ')
-# if storyDialog == 'Y':
-#     # print wrapped string line by line
-#     for line in story.getStory():
-#         print(line)
+storyDialog = input('Do you want to read the background story? (Y/N): ')
+if storyDialog == 'Y':
+    for line in story.getStory():
+            print(line)
 
 # GAME SETTINGS
 print('When you are ready to start, ')
@@ -182,9 +181,14 @@ game_over = False
 win = False
 
 # start money = 1000
+money = 50                    #tarvitseeko tätä
+# start range in km = 2000
+player_range = 12000            ##muokatkaa tätä
+
 money = 1000                    #tarvitseeko tätä
 # start range in km = 2000
 player_range = 14000            ##muokatkaa tätä
+
 
 # score = 0
 score = 0               #miten lasketaan?
@@ -331,14 +335,6 @@ while not game_over:
             current_airport = dest
             travel += 1
 
-
-    #if current_airport == #Laittakaa tähän USA lentokenttä mihin tämä peli loppuu!:
-        #print(f'''You won! You managed to navigate back to USA! You have {money}$ and {player_range}km of range left.''')
-        #game_over = True
-
-
-# if game is over loop stops
-# show game result
 
 #tehkää täällä jotain kun peli  voitettu
 if game_won:
