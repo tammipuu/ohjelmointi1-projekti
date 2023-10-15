@@ -1,346 +1,253 @@
-import story
+import time
 import random
-from geopy import distance
-import mysql.connector
 
-conn = mysql.connector.connect(
-    host='localhost',
-    port=3306,
-    database='demogame',
-    user='root',
-    password='Lontoo2023',
-    autocommit=True
-)
+player_money = 500
+player_range_km = 500
+screen_name = input("Enter your name: ")
 
-
-# FUNCTIONS
-
-import textwrap
-
-story = ("Year 1975, near the end of the Vietnam War,\nyou wake up on an unfamiliar island in a different timeline, utterly perplexed.\n"
-         "You initially think it's a dream, but reality soon sets in. You discover a mysterious letter and a map tucked away in your pocket.\n Beside you an unconscious soldier in immediate need of medical attention. To your surprise, this person seems oddly familiar.)\n"
-         "As you open the letter, its words explain your incredible situation:\n  Greetings, intrepid traveler. You have traveled from the year 2030 and have been selected for a daring mission. You've always wished to meet your grandfather, a brave Cold War soldier, who's now severely injured. "
-         "Your mission: safely bring your grandfather back home to the USA, as he holds critical information for the U.S. government.\n Yet, be cautious- your choices, matters, and a misstep could trap you here forever, endangering your grandfather's life."
-         "With the letter as your guide, you set off your journey, armed with a map and essential supplies.\n Setting off from Vietnam Airport, you encounter yet another letter just before your departure: "
-         "Welcome your mission begins here! Your first challenge emerges as a dire warning from the plane's controls: your fuel levels are dangerously low, insufficient to reach your goal destination. \n Your decision? Attempting your luck by answering the first question posed at the airport. Fortune smiles on you, granting you a valuable reward.\n"
-         "You must continue your journey now, but you must be cautious with future challenges, as wrong answers can cost you dearly. Gathering money at each airport, until you reach your destination."
-         "When you finally arrive at your destination and complete your mission successfully, you finally reunite with your grandfather once he regains consciousness. \n Your grandfather sends you back home and you wake up. It was a dream after all! ")
-
-
-
-# select 30 airports for the game
-def get_airports():
-    sql = "SELECT iso_country, ident, name, type, latitude_deg, longitude_deg FROM airport WHERE iso_country IN ('BD', 'IN', 'NP', 'CN', 'PH', 'MY', 'ID', 'FJ', 'CL', 'AR', 'BR', 'CR', 'JM', 'MX') AND type = 'large_airport' order by rand() limit 20;"
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
-#tällä haetaan aloituskenttiä Vietnamista, mutta palautetaan vain yksi
-def get_start_airport():
-    sql = "SELECT iso_country, ident, name, type, latitude_deg, longitude_deg FROM airport WHERE iso_country IN ('VN') AND type = 'large_airport' limit 5;"
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    #vaihtakaa numeroa vaihtaaksenne kenttää, jota voitte käyttää aloituksena
-    return result[1]
-#tällä haetaan kenttiä USA:sta, mutta palautetaan vain yksi niistä
-def get_finish_airport():
-    sql = "SELECT iso_country, ident, name, type, latitude_deg, longitude_deg FROM airport WHERE iso_country IN ('US') AND type = 'large_airport' limit 5;"
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    #vaihdelkaa numeroa vaihtaaksenne kenttää, jota käytetään loppukenttän, jonne
-    #halutaan päästä
-    return result[1]
-
-# get all goals
-def get_goals():
-    sql = "SELECT * FROM goal;"
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
+# EU airport list example for the game
+eu_airports = [
+    "Split Airport, Split",
+    "Munich Airport, Munich",
+    "Dublin Airport, Dublin",
+    "Malpensa Airport, Milan",
+    "Valencia Airport, Valencia",
+    "Côte d'Azur Airport, Cannes",
+    "Edinburgh Airport, Edinburgh",
+    "Lisbon Portela Airport, Lisbon"
+    "Nice Côte d'Azur Airport, Nice",
+    "Düsseldorf Airport, Düsseldorf",
+    "Luxembourg Airport, Luxembourg",
+    "Riga International Airport, Riga",
+    "Tenerife South Airport, Tenerife",
+    "Helsinki-Vantaa Airport, Helsinki",
+    "Barcelona-El Prat Airport, Barcelona",
+    "Athens International Airport, Athens",
+    "Málaga-Costa del Sol Airport, Malaga",
+    "Prague Václav Havel Airport, Prague",
+    "Stockholm Arlanda Airport, Stockholm",
+    "Kraków John Paul II International Airport, Krakow"
+    "Budapest Ferenc Liszt International Airport, Budapest",
+]
+random.shuffle(eu_airports)
 
 
-# create new game
-def create_game(start_money, p_range, cur_airport, p_name, a_ports):
-    sql = "INSERT INTO game (money, player_range, location, screen_name) VALUES (%s, %s, %s, %s);"
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql, (start_money, p_range, cur_airport, p_name))
-    g_id = cursor.lastrowid
-
-    # add goals / loot boxes
-    goals = get_goals()
-    goal_list = []
-    for goal in goals:
-        for i in range(0, goal['probability'], 1):
-            goal_list.append(goal['id'])
-
-    g_ports = a_ports[:].copy()
-    #random.shuffle(g_ports)
-
-    for i, goal_id in enumerate(goal_list):
-        sql = "INSERT INTO ports (game, airport, goal) VALUES (%s, %s, %s);"
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute(sql, (g_id, g_ports[i]['ident'], goal_id))
-
-    return g_id
+def introduction():
+    global screen_name
+    print(f"                               !Welcome, {screen_name}, to Time Travel Adventure!          ")
+    time.sleep(1.5)
+    print("Year 1919, the world was engulfed in chaos. There was no safe haven, and the roads were fraught with peril.")
+    time.sleep(1.5)
+    print(
+        "As you wake up in this turbulent time, the world around you is a battlefield, a place of uncertainty and the lives of countless people are in grave danger")
+    time.sleep(1.5)
+    print(
+        "The deafening sounds of artillery and gunfire echo in the distance. You initially think it's a dream, but reality soon sets in.")
+    time.sleep(1.5)
+    print("Beside you lies an unconscious soldiers, severely injured and in immediate need of medical attention.")
+    time.sleep(1.5)
+    print("As you sit up, you discover a mysterious letter and a map tucked away in your pocket. ")
+    time.sleep(1.5)
+    print("With trembling hands, you open the letter, its words explaining your incredible situation: ")
 
 
-# get airport info
-def get_airport_info(icao):
-    sql = f'''SELECT iso_country, ident, name, latitude_deg, longitude_deg
-                  FROM airport
-                  WHERE ident = %s'''
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql, (icao,))
-    result = cursor.fetchone()
-    return result
+def part_1():
+    global screen_name
+    print("\nPart 1: The Letter")
+    time.sleep(1.5)
+    print(f"Greetings {screen_name}, the chosen Gurdian!")
+
+    time.sleep(1.5)
+    print("In a world on the brink of destruction, the fate of humanity rests in your hands as the chosen Gurdian.")
+    time.sleep(1.5)
+    print("You have always yearned for an adventurous life, and now you stand amid history's most turbulent moments.")
+    time.sleep(1.5)
+    print("However, after sleeping for thousands of years, you have finally been awakened to fulfill your destiny.")
+    time.sleep(1.5)
+    print("As the chosen Gurdian, you are called upon whenever the world faces its darkest hours.")
+    time.sleep(1.5)
+    print("Armed with unique abilities, you embark on a high-stakes journey through time and space.")
+    time.sleep(1.5)
+    print("Keep in mind that all your unique abilities have yet to awaken; you must complete the given mission first")
+    time.sleep(1.5)
+    print("The fate of this war hangs in the balance, but be cautious—your choices matter, and a misstep could trap you \nin this timeline forever, endangering not only your own existence but the soldier's life as well.!")
+    time.sleep(1.5)
+    print("Your mission is clear: safely bring the soldier to back home, ensuring the vital information he possesses reaches the right hands. ")
 
 
-# check if airport has a goal
-def check_goal(g_id, cur_airport):
-    sql = f'''SELECT ports.id, goal, question, answer, wrong_answer, wrong_answer2
-    FROM ports
-    JOIN goal ON goal.id = ports.goal
-    WHERE ports.game = %s
-    AND ports.airport = %s'''
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql, (g_id, cur_airport))
-    result = cursor.fetchone()
-    if result is None:
-        return False
-    return result
+def part_2():
+    global player_money, player_range_km, airport_current_location
+    print("\nPart 2: The Mission\n")
+    time.sleep(2)
 
+    choice = input("Choose your vehicle for this adventurous journey: (1) The Mega Plane (2)The Heroic Aircraf: ")
 
-# calculate distance between two airports
-def calculate_distance(current, target):
-    start = get_airport_info(current)
-    end = get_airport_info(target)
-    return distance.distance((start['latitude_deg'], start['longitude_deg']),
-                             (end['latitude_deg'], end['longitude_deg'])).km
-
-
-# get airports in range
-def airports_in_range(icao, a_ports, p_range):
-    in_range = []
-    for a_port in a_ports:
-        dist = calculate_distance(icao, a_port['ident'])
-        #ile, lisätty tänne 'and a_port['ident'] not in visited:', koska
-        #jo vierailtuihin kenttiin ei? voida matkustaa
-        if dist <= p_range and not dist == 0 and a_port['ident'] not in visited:
-            in_range.append(a_port)
-    return in_range
-
-
-# set loot box opened
-
-# update location
-def update_location(icao, p_range, u_money, g_id):
-    sql = f'''UPDATE game SET location = %s, player_range = %s, money = %s WHERE id = %s'''
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql, (icao, p_range, u_money, g_id))
-
-
-
-
-#ilen koodi
-
-def is_int(num):
-    try:
-        int(num)
-        return True
-    except ValueError:
-        return False
-
-def get_answer():
-    user = 0
-    # kysytään
-    while user == 0:
-        user = input('Enter you answer here: ').upper()
-        if is_int(user):
-            user = int(user)
-            if 0 < user > 3:
-                user = 0
-    return user
-#ilen koodi loppuu
-
-# game starts
-# ask to show the story
-storyDialog = input('Do you want to read the background story? (Y/N): ')
-if storyDialog == 'Y':
-# print wrapped string line by line
-    for line in story.getStory():
-        print(line)
-
-# GAME SETTINGS
-print('When you are ready to start, ')
-print(story)
-player = input('type player name: ')
-# boolean for game over and win
-game_over = False
-win = False
-
-# start money = 1000
-money = 1000                    #tarvitseeko tätä
-
-# start range in km = 2000
-player_range = 10000            ##muokatkaa tätä
-
-# score = 0
-score = 0               #miten lasketaan?
-
-# boolean for diamond found
-questions = 0
-right_answers = 0
-wrong_answers = 0
-travel = 0
-
-# all airports
-all_airports = get_airports()
-# start_airport ident. Haetaan satunnainen vietnamilainen kenttä aloituskentäksi
-start_airport = get_start_airport()['ident'] #all_airports[0]['ident']
-
-#Haetaan satunnainen amerikkalainen kenttä loppukentäksi
-finish_airport = get_finish_airport()
-
-# current airport
-current_airport = start_airport
-
-# game id
-game_id = create_game(money, player_range, start_airport, player, all_airports)
-
-#ilen koodi
-#asetetaan kaikkien kenttien ICAO-koodit listaan
-airport_icaos = []
-for info in all_airports:
-    airport_icaos.append(info['ident'])
-#tänne kenttien ICAO-koodit, joilla on käyty
-visited = []
-game_won = False
-reward_range = 4000 #tämä on oikeasta vastauksesta annettava voitto-range,
-#ilen koodi loppuu
-
-# GAME LOOP
-while not game_over:
-    # get current airport info
-    airport = get_airport_info(current_airport)
-
-    # show game status
-    print(f'''You are at {airport['name']}.''')
-    print(f"You have traveled to {travel} airports.")
-    print(f'''You have answered to {questions} questions.\n
-    Right answers: {right_answers}, Wrong answers: {wrong_answers}.
-    You have {money:.0f}$ and {player_range:.0f}km of range.''')
-    # pause
-    # if airport has goal ask if player wants to open it
-    # check goal type and add/subtract money accordingly
-
-    goal = check_goal(game_id, current_airport)
-
-    if goal:
-
-        print(f'Theres a question in this airport!')
-        print('If you answer correctly you will be awarded 500km of range!')
-        print('If you answer incorrectly you will lose 500km of range!')
-        print(f"{goal['question']} (Answer 1, 2 or 3)")
-
-        #ilen koodi, luodaan lista vastauksista
-
-        answers = [goal['answer'], goal['wrong_answer'], goal['wrong_answer2']]
-        #sekoitetaan vastaukset
-        random.shuffle(answers)
-        ##asetetaan jokaisen vastauksen eteen järjestysnumero, jonka käyttäjä näkee
-        #ja jonka käyttäjä kirjoittaa kun valitsee vastausta
-        answer_lines = answers.copy()
-        answer_id = -1
-        for i, answer in enumerate(answer_lines):
-            # jos vastaus on oikea, niin otetaan sen järjestysnumero listassa muistiin
-            # myöhempää tarkistusta varten
-            if answer == goal['answer']:
-                answer_id = i
-            # lisätään näytettävien vastausten eteen sen järjestysnumero ja
-            # asetetaan sen answer_lines-listaan, joka näytetään pelaajalle
-            answer_lines[i] = f"{i + 1}. {answer_lines[i]}"
-            print(answer_lines[i])
-        # haetaan pelaajan vastausnumero
-        user = get_answer()
-        #ilen koodi loppuu
-
-        #tarkistetaan oliko vastaus oikea
-        if str(user) == str(answer_id + 1):
-            print(f'Your answer was correct! As a reward you get 500$ and {reward_range} km of range!')
-            money += 100        #tarvitseeko tätä?
-            player_range += reward_range #muokatkaa tätä
-            questions = 1
-            right_answers += 1
-        else:
-            print(f'Your answer was incorrect! As a penalty, you lose 500km of range')
-            player_range -= 100 #muokatkaa tätä?
-            wrong_answers += 1
-            questions += 1
-
-    if wrong_answers >= 3:
-        game_over = True
-        print(f"You lost the game! You gave the wrong answer for three times. Better luck next time!")
-
-    # get current airport info
-    airport = get_airport_info(current_airport)
-
-    # show game status
-    #print(f'''You are at {airport['name']}.''')
-    input('\033[32mPress Enter to continue...\033[0m')
-    print(f"You have traveled to {travel} airports.")
-    print(f'''You have answered to {questions} questions.\n
-    Right answers: {right_answers}, Wrong answers: {wrong_answers}.
-    You have {money:.0f}$ and {player_range:.0f}km of range.''')
-    # if no range, game over
-
-    # show airports in range. if none, game over
-    airports = airports_in_range(current_airport, all_airports, player_range)
-    print(f'''\033[34mThere are {len(airports)} airports in range: \033[0m''')
-    if len(airports) == 0:
-        print('You are out of range.')
-        print('You lost the game as you are not able to travel to any other airport. Better luck next time!')
-        game_over = True
+    if choice == "1" or choice == "2":
+        print("Excellent choice, adventurer! Let's begin!\n")
+        player_money = 500
+        player_range_km = 500
+        player_fuel = 1000
+        airport_current_location = random.choice(eu_airports)
+        print(f"You are about to start your adventure at {airport_current_location} with 500$, and a range of {player_range_km} kilometers. ")
     else:
-        print(f'''Airports: ''')
-        #ilen koodi, tarkastetaan onko USA-kenttä pelaajan etäisyydellä
-        ap_distance = calculate_distance(current_airport, finish_airport['ident'])
-        if ap_distance < player_range:
-            print("You won, you have range to fly to USA")
-            game_won = True
-            game_over = True
-            #mitä tapahtuu kuin voitto tulee
-        #ilen koodi loppuu
-        else:
-            for airport in airports:
-                if airport['ident'] not in visited:
-                    ap_distance = calculate_distance(current_airport, airport['ident'])
-                    print(f'''Country: {airport['iso_country']}, {airport['name']}, icao: {airport['ident']}, distance: {ap_distance:.0f}km''')
-            # ask for destination
-            dest = input('Enter destination icao: ').upper()
-            #toista kunnes pelaaja antaa etäisyydellä olevan kentän ICAO:n
-            while dest not in airport_icaos:
-                dest = input('Enter destination icao: ').upper()
-            #lisätään kenttä jonne matkustetaan vierailtujen kenttien listaan
-            visited.append(dest)
-
-            selected_distance = calculate_distance(current_airport, dest)
-            player_range -= selected_distance
-            update_location(dest, player_range, money, game_id)
-            current_airport = dest
-            travel += 1
+        print("Invalid choice. Please choose option (1) or option (2) to continue the game.\n")
+        return
 
 
-    #if current_airport == #Laittakaa tähän USA lentokenttä mihin tämä peli loppuu!:
-        #print(f'''You won! You managed to navigate back to USA! You have {money}$ and {player_range}km of range left.''')
-        #game_over = True
+    print("With a deep breath, you ponder your next move. ")
+    time.sleep(1.5)
+    print("You realize that the key to success in this mission lies in your ability to gather money at each airport to continue your journey and play wisely.")
+    time.sleep(1.5)
+    print("As you navigate through various challenges at different airports, you learn to adapt and make crucial decisions that shape your journey")
+    time.sleep(1.5)
+    print("You uncover secrets, alliances, and hidden agendas within the government, and you start to question the true nature of your missions.")
+    time.sleep(1.5)
+    print("Do not fear- It is only going to get more intense!\n ")
+    time.sleep(3)
 
 
-# if game is over loop stops
-# show game result
+    choice1 = input("Do you want to continue playing? (1) Continue (2) Quit ")
+    if choice1 == "2":
+        print("Thankyou for playing!")
+        return
 
-#tehkää täällä jotain kun peli  voitettu
-if game_won:
-    print("You are in USA now")
+    print("Countdown to save humanity begins now!\n")
+
+
+
+    choice2 = input("Mysterious letter as your guide, you set off on your journey, armed with the map and essential supplies,a critical warning \nflashes across your vehicle's control panel – your fuel levels are critically low, insufficient to reach your ultimate destination.\nWhat will you do? (1) Prepare for a courageous landing at the nearest airport. (2) Keep soaring through the skies: ")
+
+    if choice2 == "1":
+        print("You have made the right call adventurer! In dire situations, landing is often the safest option.\n")
+        player_money += 500
+        player_range_km += 600
+        airport_current_location = random.choice(eu_airports)
+        print(f"Fortune smiles on you! You have successfully landed at the {airport_current_location},\nand as a reward, you receive a valuable cache of rewards.Your journey continues!\n")
+
+
+    elif choice2 == "2":
+        print("Oh No! the plane's fate is sealed as it is speeding toward an unfortunate end...")
+        print("Your plane crashes, and your adventure begins anew. ")
+        player_money = 0
+        player_range_km = 0
+        return
+
+
+    else:
+        print("Invalid choice.")
+
+
+    print(f"You now posses {player_money} and range of {player_range_km} kilometers!\n")
+    time.sleep(1.5)
+
+    choice3 = input("Danger!Danger! There is sudden fire on the aircraft’s wings. Act quickly!\n(1) Put more fuel to the fire (2) Initiate an emergency landing at the nearest airport: ")
+
+    if choice3 == "2":
+        print("You have made the right call adventurer! In dire situations, landing is often the safest option")
+        player_money += 500
+        player_range_km += 600
+        airport_current_location = random.choice(eu_airports)
+        print(f"You have successfully landed at the {airport_current_location},and as a reward, you receive a valuable cache of rewards.Your journey continues!\n")
+
+    elif choice3 == "1":
+        print("Oh No! Oh No! The situation worsens and the plane crashes....")
+        player_money = 0
+        player_range_km = 0
+        return
+
+    else:
+        print("Invalid choice.")
+
+
+    print(f"You now posses {player_money} and range of {player_range_km} kilometers!\n")
+    time.sleep(2)
+
+    choice4 = input("You encounter a group of people at an airport, offering to share their findings. Will you join their adventure?,\n(1) Decline their offer. (2) Join them: ")
+
+    if choice4 == "1":
+        print(" By not joining them, you avoid potential danger, stay commit to your crucial mission. ")
+        player_money += 600
+        player_range_km += 700
+        airport_current_location = random.choice(eu_airports)
+        print(f" You have successfully landed at the {airport_current_location},\nand as a reward, you receive a valuable cache of rewards.\n")
+
+
+    elif choice4 == "2":
+        print("Tragedy strikes! You have been robbed and the plane has been stolen, putting the soldiers' lives at risk to the end!")
+        print("Unfortunately you have failed your mission, you are stuck in this timeline forever.")
+        player_money = 0
+        player_range_km = 0
+        return
+
+
+    else:
+        print("Invalid choice.")
+
+
+    print(f"You now posses {player_money} and range of {player_range_km} kilometers!\n")
+
+
+    choice5 = input("The weather is taking a turn for the worse. What’s your next move?\n(1) Excuete an emergency landing at a safe airport. (2)Harness the power of wind and ride along the storm: ")
+
+    if choice5 == "1":
+        print("Amazing! It is wise to avoid treacherous weather and make an emergency landing.\n ")
+        player_money += 999
+        player_range_km += 2000
+        airport_current_location = random.choice(eu_airports)
+
+
+    elif choice5 == "2":
+        print("The relentless force of the storm has damaged your aircraft beyond repair. You can't fly anymore!")
+        player_money = 0
+        player_range_km = 0
+        return
+
+
+    else:
+        print("Invalid choice")
+
+
+    print(f"You now posses {player_money} and range of {player_range_km} kilometers!\n")
+    time.sleep(3)
+
+
+    choice6 = input("You are running out of time and the war is getting out of hand.\nAs you continue your journey from last airport, you encounter a mysterious man.\nHe utters, trust me and hand over the soldier, I know him, I can safely take him home.\nWhat do you do? (1) Fly as fast as you can (2) Hand over the solider: ")
+
+    if choice6 == "1":
+        print("Amazing! You have avoided the biggest challenge ever! Now the final map of your destination will\n be handed over to you.\n ")
+        player_money += 1000
+        player_range_km += 20000
+        airport_current_location = random.choice(eu_airports)
+
+
+    elif choice6 == "2":
+        print("Suddenly darkness takes over the world. You understand that you have been deceived.")
+        player_money = 0
+        player_range_km = 0
+        return
+
+
+    else:
+        print("Invalid choice.")
+
+    print(f"You now posses {player_money} and range of {player_range_km} kilometers!\n")
+
+
+    print("Finally, after several missions filled with twists and turns, you successfully deliver the injured soldier \n and the critical information to the government, which ultimately plays a pivotal role in bringing the war to an end. ")
+    time.sleep(1.5)
+    print("You are given the opportunity to return home, but it's clear that your journey isn't over.")
+    time.sleep(1.5)
+    print("As you walk away from the battlefield of 1919, you wonder what the future holds for a time traveler like \nyourself and the mysterious person that sent you on these extraordinary adventures.")
+
+def end():
+    print(f"Thankyou for playing, {screen_name}")
+
+
+
+
+
+if __name__ == "__main__":
+    introduction()
+    part_1()
+    part_2()
+    end()
