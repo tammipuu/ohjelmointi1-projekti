@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
+    <link href="styles1.css" rel="stylesheet">
+    <!--    <link href="styles.css" rel="stylesheet">-->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" defer></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js" defer></script>
+    <script src="app.js" defer></script>
+    <title>Top Gun</title>
+</head>
+<body>
+<div class="container">
+    <header class="page-header">
+        <h1 class="page-title">
+            <ion-icon name="airplane-outline"></ion-icon>&nbsp;Top&nbsp;Gun&nbsp;<ion-icon
+                name="airplane-outline"></ion-icon>
+        </h1>
+        <nav>
+            <ul class="flex-wrap space-evenly">
+                <li>
+                    <a class="button button-white" href="index.html">Game</a>
+                </li>
+                <li>
+                    <a class="button button-white" href="about.html">About</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="flex-wrap">
+        <div id="map">
+            <!--            <img class="responsive-image" src="img/finland.svg" alt="map of finland">-->
+        </div>
+        <div class="boxes">
+            <section class="box">
+                <header>
+                    <h2>Game Status</h2>
+                </header>
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <h3 id="player-name">Player Name</h3></td>
+                    </tr>
+                    <tr>
+                        <td>CO2 Consumed: <span id="consumed">0</span>kg</td>
+                        <td>CO" Budget: <span id="budget">1000</span>kg</td>
+                    </tr>
+                </table>
+            </section>
+            <section class="box">
+                <header>
+                    <h2 id="airport-name">Airport Name</h2>
+                </header>
+                <table id="weather">
+                    <tr>
+                        <td>Temperature</td>
+                        <td>
+                            <!--                            <img id="weather-icon" src="https://openweathermap.org/img/wn/10d@2x.png>" alt="Current weather">-->
+                        </td>
+                        <td>Wind</td>
+                    </tr>
+                    <tr>
+                        <td id="airport-temp">10°C</td>
+                        <td id="airport-conditions">Cloudy</td>
+                        <td id="airport-wind">40m/s</td>
+                    </tr>
+                </table>
+            </section>
+            <section class="box">
+                <header>
+                    <h2>Questions</h2>
+                </header>
+                <div>
+                    <div id="questionModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close-button">×</span>
+                            <h2 id="questionText"></h2>
+                            <button class="answer" onclick="checkAnswer(this)">Choice1</button>
+                            <button class="answer" onclick="checkAnswer(this)">Choice2</button>
+                            <button class="answer" onclick="checkAnswer(this)">Choice3</button>
+                        </div>
+
+                    </div>
+
+                    <div id="correctAnswerAnimation" class="animation-container">
+                        <img hidden src="icons/correct-answer.png" alt="correct answer text">
+                        <h3 class="correct-co2"></h3>
+                    </div>
+
+
+                    <div class="sidebar">
+                        <div class="scoreboard-box">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>CO2 Emissions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="leaderboard-rows">
+                                <!-- Leaderboard rows will be inserted here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="stats-box">
+                            <h2>Stats</h2>
+                            <h3 class="stat-points">Points: <span class="stats-points-target">0</span></h3>
+                            <h3 class="stat-co2">CO2 usage: <span class="stats-co2-target">0KG</span></h3>
+                            <h3 class="stat-distance">Distance: <span class="stats-distance-target">0KM</span></h3>
+                            <h3 class="stat-streak">Streak: <span class="stats-streak-target">0</span></h3>
+                        </div>
+
+                        <div id="weather-box">
+                            <h2>Weather</h2>
+                            <h3 class="weather-temp">Temperature: <span class="weather-temp-target"></span></h3>
+                            <h3 class="weather-desc"><span class="weather-desc-target"></span></h3>
+                            <h3 class="weather-desc"><img src="" class="weather-icon-target" alt="-" height="80px"
+                                                          width="80px"></h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="page-footer">
+        <p>I made this!</p>
+    </footer>
+    <div class="goal hide">
+        <h2>Goooool!!!</h2>
+        <p>
+            <span id="goal-txt">Goals reached!!</span>
+        </p>
+    </div>
+</div>
+
+<div id="player-modal">
+    <form id="player-form">
+        <input id="player-input" type="text" placeholder="player name" required>
+        <input type="submit" value="Start game">
+    </form>
+</div>
+</body>
+
+</html>
